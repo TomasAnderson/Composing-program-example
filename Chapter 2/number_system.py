@@ -41,5 +41,28 @@ class ComplexMA(Complex):
 	def __repr__(self):
 		return 'ComplexMA({0:g}, {1:g} * pi)'.format(self.magnitude, self.angle/pi)
 
+from fractions import gcd
 
+class Rational(Number):
+	def __init__(self, numer, denom):
+		g = gcd(numer, denom)
+		self.numer = numer // g
+		self.denom = denom // g
+	def __repr__(self):
+		return 'Rational({0}, {1})'.format(self.numer, self.denom)
+	def add(self, other):
+		nx, dx = self.numer, self.denom
+		ny, dy = other.numer, other.denom
+		return Rational(nx * dy + ny * dx, dx * dy)
+	def mul(self, other):
+		numer = self.numer * other.numer
+		denom = self.denom * other.denom
+		return Rational(numer, denom)
+
+def is_real(c):
+	"""Return whether c is a real number with no imaginary part."""
+	if isinstance(c, ComplexRI):
+		return c.imag == 0
+	elif isinstance(c, ComplexMA):
+		return c.angle % pi == 0
 
