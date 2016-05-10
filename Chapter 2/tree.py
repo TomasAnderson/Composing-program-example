@@ -63,4 +63,6 @@ def print_parts(tree, partition=[]):
 		print_parts(left, partition + [m])
 		print_parts(right, partition)
 
-print_parts(partition_tree(6, 4))
+# print_parts(partition_tree(6, 4))
+
+print(partition_tree(6, 4))
