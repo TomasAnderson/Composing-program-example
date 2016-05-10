@@ -1,6 +1,6 @@
 def tree(root, branches=[]):
 	for branch in branches:
-		assert is_tree(branch), 'branches must be trees'
+		assert is_tree(branch), 'branch must be tree'
 	return [root] + list(branches)
 
 def root(tree):
@@ -20,14 +20,6 @@ def is_tree(tree):
 def is_leaf(tree):
 	return not branches(tree)
 
-# t = tree(3, [tree(1), tree(2, [tree(1), tree(1)])])
-# print(t)
-# print(root(t))
-# print(branches(t))
-# print(root(branches(t)[1]))
-# print(is_leaf(t))
-# print(is_leaf(branches(t)[0]))
-
 def fib_tree(n):
 	if n == 0 or n == 1:
 		return tree(n)
@@ -42,13 +34,13 @@ def count_leaves(tree):
 	if is_leaf(tree):
 		return 1
 	else:
-		branch_counts = [count_leaves(b) for b in branches(tree)]
-		return sum(branch_counts)
+		branch_count = [count_leaves(b) for b in branches(tree)]
+		return sum(branch_count)
 
 # print(count_leaves(fib_tree(5)))
 
+
 def partition_tree(n, m):
-	"""Return a partition tree of n using parts of up to m"""
 	if n == 0:
 		return tree(True)
 	elif n < 0 or m == 0:
@@ -58,15 +50,15 @@ def partition_tree(n, m):
 		right = partition_tree(n, m-1)
 		return tree(m, [left, right])
 
-# print(partition_tree(2,2))
+
+# print(partition_tree(2, 2))
 
 def print_parts(tree, partition=[]):
 	if is_leaf(tree):
 		if root(tree):
 			print(' + '.join(partition))
-
 	else:
-		left, right = branches(tree)
+		left, right=branches(tree)
 		m = str(root(tree))
 		print_parts(left, partition + [m])
 		print_parts(right, partition)
