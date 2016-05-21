@@ -94,12 +94,33 @@ def play(strategy0, strategy1, goal=GOAL_SCORE):
     number of dice that the current player will roll this turn.
 
     strategy0:  The strategy function for Player 0, who plays first.
+
     strategy1:  The strategy function for Player 1, who plays second.
     """
     who = 0  # Which player is about to take a turn, 0 (first) or 1 (second)
-    score, opponent_score = 0, 0
+    score1, score2 = 0, 0
     "*** YOUR CODE HERE ***"
-    return score, opponent_score  # You may wish to change this line.
+    while score1 < goal and score2 < goal:
+        strategy = (strategy0, strategy1)[who]
+        current_score = (score1, score2)[who]
+        opponent_score = (score1, score2)[other(who)]
+        dice = select_dice(current_score, opponent_score)
+        score = take_turn(strategy(current_score, opponent_score), opponent_score, dice)
+        if who == 0:
+            score1 += score
+        else:
+            score2  += score
+        if is_twice(score1, score2):
+            score1, score2 = score2, score1
+        who = other(who)
+    return score1, score2 # You may wish to change this line.
+
+def is_twice(num1, num2):
+    if num1 == 0 or num2 == 0:
+        return False
+    else:
+	    return num1 / num2 == 2 or num2 / num1 == 2
+
 
 #######################
 # Phase 2: Strategies #
