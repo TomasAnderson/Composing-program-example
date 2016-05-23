@@ -100,6 +100,11 @@ def play(strategy0, strategy1, goal=GOAL_SCORE):
     who = 0  # Which player is about to take a turn, 0 (first) or 1 (second)
     score1, score2 = 0, 0
     "*** YOUR CODE HERE ***"
+    def is_twice(num1, num2):
+        if num1 == 0 or num2 == 0:
+            return False
+        else:
+	        return num1 / num2 == 2 or num2 / num1 == 2
     while score1 < goal and score2 < goal:
         strategy = (strategy0, strategy1)[who]
         current_score = (score1, score2)[who]
@@ -115,11 +120,6 @@ def play(strategy0, strategy1, goal=GOAL_SCORE):
         who = other(who)
     return score1, score2 # You may wish to change this line.
 
-def is_twice(num1, num2):
-    if num1 == 0 or num2 == 0:
-        return False
-    else:
-	    return num1 / num2 == 2 or num2 / num1 == 2
 
 
 #######################
@@ -221,7 +221,7 @@ def average_win_rate(strategy, baseline=always_roll(BASELINE_NUM_ROLLS)):
 
 def run_experiments():
     """Run a series of strategy experiments and report results."""
-    if True: # Change to False when done finding max_scoring_num_rolls
+    if False: # Change to False when done finding max_scoring_num_rolls
         six_sided_max = max_scoring_num_rolls(six_sided)
         print('Max scoring num rolls for six-sided dice:', six_sided_max)
         four_sided_max = max_scoring_num_rolls(four_sided)
@@ -230,7 +230,7 @@ def run_experiments():
     if False: # Change to True to test always_roll(8)
         print('always_roll(8) win rate:', average_win_rate(always_roll(8)))
 
-    if False: # Change to True to test bacon_strategy
+    if True: # Change to True to test bacon_strategy
         print('bacon_strategy win rate:', average_win_rate(bacon_strategy))
 
     if False: # Change to True to test swap_strategy
@@ -255,7 +255,10 @@ def bacon_strategy(score, opponent_score):
     0
     """
     "*** YOUR CODE HERE ***"
-    return 5 # Replace this statement
+    if take_turn(0, opponent_score) >= BACON_MARGIN:
+        return 0
+    else:
+        return BASELINE_NUM_ROLLS 
 
 def swap_strategy(score, opponent_score):
     """This strategy rolls 0 dice when it would result in a beneficial swap and
