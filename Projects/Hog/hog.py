@@ -100,11 +100,6 @@ def play(strategy0, strategy1, goal=GOAL_SCORE):
     who = 0  # Which player is about to take a turn, 0 (first) or 1 (second)
     score1, score2 = 0, 0
     "*** YOUR CODE HERE ***"
-    def is_twice(num1, num2):
-        if num1 == 0 or num2 == 0:
-            return False
-        else:
-	        return num1 / num2 == 2 or num2 / num1 == 2
     while score1 < goal and score2 < goal:
         strategy = (strategy0, strategy1)[who]
         current_score = (score1, score2)[who]
@@ -121,6 +116,11 @@ def play(strategy0, strategy1, goal=GOAL_SCORE):
     return score1, score2 # You may wish to change this line.
 
 
+def is_twice(num1, num2):
+    if num1 == 0 or num2 == 0:
+        return False
+    else:
+        return num1 / num2 == 2 or num2 / num1 == 2
 
 #######################
 # Phase 2: Strategies #
@@ -230,10 +230,10 @@ def run_experiments():
     if False: # Change to True to test always_roll(8)
         print('always_roll(8) win rate:', average_win_rate(always_roll(8)))
 
-    if True: # Change to True to test bacon_strategy
+    if False: # Change to True to test bacon_strategy
         print('bacon_strategy win rate:', average_win_rate(bacon_strategy))
 
-    if False: # Change to True to test swap_strategy
+    if True: # Change to True to test swap_strategy
         print('swap_strategy win rate:', average_win_rate(swap_strategy))
 
     if False: # Change to True to test final_strategy
@@ -276,8 +276,16 @@ def swap_strategy(score, opponent_score):
     5
     """
     "*** YOUR CODE HERE ***"
-    return 5 # Replace this statement
-
+    roll_0_score = take_turn(0, opponent_score)
+    current_score = roll_0_score + score
+    if is_twice(current_score, opponent_score):
+        if current_score < opponent_score:
+            return 0
+        else:
+            return BASELINE_NUM_ROLLS
+    else:
+        return bacon_strategy(score, opponent_score)
+        
 def final_strategy(score, opponent_score):
     """Write a brief description of your final strategy.
 
